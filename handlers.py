@@ -20,6 +20,7 @@ class BlogHandler(webapp2.RequestHandler):
         self.response.out.write(*a,**kw)
     
     def render_str(self, template, **params):
+        params['user'] = self.user
         t = jinja_env.get_template(template)
         return t.render(params)
         
@@ -46,12 +47,13 @@ class Front(BlogHandler):
                         ORDER BY created DESC limit 5;""")
         self.render("front.html", posts=posts)
         
+        
 class NewPost(BlogHandler):
     def render_newpost(self, subject="", content="", error=""):
         self.render("newpost.html", subject=subject, content=content, error=error)
 
     def get(self):
-        if self.user and self.user.name == "Eamon":
+        if self.user and self.user.username == "Eamon":
             self.render_newpost()
         else:
             self.redirect("/blog")
