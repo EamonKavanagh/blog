@@ -3,12 +3,18 @@
 {% block content %}
 
     {% for post in posts %}
-        <div>
-            <div class="post-title">{{post.subject}}</div>
-            <hr>
-            <div class="post-content">{{post.content}}</div>
-            <br><br>
-        </div>
+        <section>
+            <div id="post-image"></div> 
+            <div id="post">   
+                <a id="post-title" href="/blog/">{{post.subject}}</a>
+                <p id="post-content">{{post.content}}</p>
+                <a id="post-link" href="/blog/">Read More</a>
+            </div>
+            
+        </section>
+        <div id="post-separator"></div>
+        
     {% endfor %}
+
 
 {% endblock %}

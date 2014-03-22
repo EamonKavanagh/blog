@@ -5,27 +5,54 @@
     <link type = "text/css" rel="stylesheet" href="/static/main.css"/>
     <title>Blog</title>
     
+    <script
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    type="text/javascript">
+    </script>
+    
 </head>
 
 <body>
-  <a href="/blog" class="main-title">
-  This is my blog
-  </a>
 
-  <div class="login-area">
-    {% if user %}
-      {{user.username}} (<a class="login-link" href="/blog/logout">logout</a>)
-    {% else %}
-      <a class="login-link" href="/blog/login">login</a>
-      |
-      <a class="login-link" href="/blog/signup">signup</a>
-    {% endif %}
-  </div>
+    <div id="top-bar">
+    
+     <div class="login-area">
+        {% if user %}
+        {{user.username}} (<a class="login-link" href="/blog/logout">logout</a>)
+        {% else %}
+        <a class="login-link" href="/blog/login">login</a>
+        |
+        <a class="login-link" href="/blog/signup">signup</a>
+        {% endif %}
+    </div>
+    
+    </div>
+    
+    <div id="main-title">
+        <a id="title-link" href="/blog">
+        \(e^{\pi i} = -1\)
+        </a>
+     </div>
+     
+    <div id="link-bar"></div>
+    <ul id="nav-bar">
+        <li class="nav-bar-buttons">
+        <a href="/blog" class="nav-button">Archives</a>
+        </li>
+        <li class="nav-bar-buttons">
+        <a href="/blog" class="nav-button">About</a>
+        </li>
+        <li class="nav-bar-buttons">
+        <a href="/blog" class="nav-button">Hire Me</a>
+        </li>
+        <li class="nav-bar-buttons">
+        <a href="/blog" class="nav-button">Contact</a>
+        </li>
+    </ul>
+    
+    {% block content %}
+    {% endblock %}
 
-  <div id="content">
-  {% block content %}
-  {% endblock %}
-  </div>
 </body>
 
 </html>
