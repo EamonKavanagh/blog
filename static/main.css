@@ -1,6 +1,6 @@
 body, html {
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-family: 'EB Garamond', Arial, serif;
+    font-size: 18px;
     padding: 0;
     margin: 0;
     background-color: #FFFCFC;
@@ -13,10 +13,10 @@ body, html {
 }
 
 .login-area {
-    font-size: 13px;
+    font-size: 15px;
     color: #384048;
     position: absolute;
-    top: 13px;
+    top: 8px;
     right: 15px;
 }
 
@@ -33,6 +33,20 @@ body, html {
     text-decoration: underline;
 }
 
+#main-title {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#main-link{
+    text-decoration: none;
+    color: #222;
+    font-size: 40px;
+    font-weight: bold;
+}
+
 #link-bar{
     width: 75%;
     height: 10px;
@@ -47,8 +61,8 @@ body, html {
     padding: 0;
     margin-bottom: 125px;
     list-style-type: none;
-    border-right: 1px solid #CCC;
-    border-top: 1px solid #CCC;
+    border-right: 1px solid black;
+    border-top: 2px solid #CCC;
 }
 
 .nav-bar-buttons{
@@ -56,18 +70,19 @@ body, html {
     height: 30px;
     width: 24.6%;
     padding: 0 0 1px 1px;
-    border-left: 1px solid #CCC;
-    background-color: black;
+    border-left: 1px solid black;
+    background-color: #D3D3D3;
 }
 
 .nav-button{
     text-decoration: none;
     text-align: center;
     display: block;
-    line-height: 33px;
-    color: #FFFCFC;
-    font-size: 15px;
-    font-weight: bold;
+    line-height: 27px;
+    color: black;
+    font-size: 20px;
+    font-weight: 550;
+    letter-spacing: 1px;
 }
 
 h2 {
@@ -107,20 +122,6 @@ input[type=submit] {
   font-size: 24px;
 }
 
-#main-title {
-    display: block;
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-#title-link{
-    text-decoration: none;
-    color: #222;
-    font-size: 40px;
-    font-weight: bold;
-}
-
 section{
     margin: 0 auto;
     width: 60%;
@@ -137,14 +138,13 @@ section{
 #post{
     height: 240px;
     width: 500px;
-    padding-top: 10px;
+    padding-top: 5px;
     float: right;
     position: relative;
 }
 
 #post-title{
-    top: 15px;
-    font-size: 24px;
+    font-size: 26px;
     text-decoration: none;
     color: black;
 }
@@ -153,7 +153,7 @@ section{
     text-decoration: none;
     color: #800000;
     position: absolute;
-    bottom: 0px;
+    bottom: -5px;
 }
 
 #post-separator{

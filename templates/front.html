@@ -6,9 +6,9 @@
         <section>
             <div id="post-image"></div> 
             <div id="post">   
-                <a id="post-title" href="/blog/">{{post.subject}}</a>
+                <a id="post-title" href={{"/blog/%d"%post.key().id()}}>{{post.subject}}</a>
                 <p id="post-content">{{post.content}}</p>
-                <a id="post-link" href="/blog/">Read More</a>
+                <a id="post-link" href={{"/blog/%d"%post.key().id()}}>Read More</a>
             </div>
             
         </section>

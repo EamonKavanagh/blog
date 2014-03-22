@@ -4,11 +4,7 @@ import os
 from library.models import *
 from library.utilities import *
 
-#IMPROVE WELCOME PAGE
 #ADD TIMESTAMPS
-#ADD LOGIN/SIGNUP/LOGOUT DEPENDING UPON COOKIES
-#IMPROVE HTML
-
 
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -148,19 +144,19 @@ class Logout(BlogHandler):
         self.set_secure_cookie("userID", "")
         self.redirect("/blog")
         
-class Json(BlogHandler):
+class Archives(BlogHandler):
     def get(self):
-        self.response.headers['Content-Type'] = "application/json; charset=UTF-8"
-        posts = db.GqlQuery("""SELECT * FROM Posts 
-                        ORDER BY created DESC;""")
-        j = self.render_str("front.html", posts=posts)
-        self.response.out.write(json.dumps(j))
-        
-class JsonPost(BlogHandler):
-    def get(self, postID):
-        post = Posts.get_by_id(int(postID))
-        subject = post.subject
-        content = post.content
-        self.response.headers['Content-Type'] = "application/json; charset=UTF-8"
-        j = self.render_str("post.html",subject=subject,content=content)
-        self.response.out.write(json.dumps(j))
+        posts = db.GqlQuery("SELECT * FROM Posts ORDER BY created;")
+        self.render("archives.html", posts=posts)
+
+class About(BlogHandler):
+    def get(self):
+        self.render("about.html")
+
+class Hire(BlogHandler):
+    def get(self):
+        self.render("hire.html")
+
+class Contact(BlogHandler):
+    def get(self):
+        self.render("contact.html")
