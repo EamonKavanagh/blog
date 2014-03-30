@@ -1,8 +1,11 @@
+import os
+
 import webapp2
 import jinja2
-import os
-from library.models import *
-from library.utilities import *
+from google.appengine.ext import db
+
+from library.models import Posts, Users
+import library.utilities as utils
 
 #ADD TIMESTAMPS
 
@@ -24,12 +27,12 @@ class BlogHandler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
         
     def set_secure_cookie(self, cookie, val):
-        secure_val = make_secure_val(val)
+        secure_val = utils.make_secure_val(val)
         self.response.headers.add_header("Set-Cookie","%s=%s; Path=/"%(cookie,secure_val))
         
     def read_secure_cookie(self, val):
         cookie_val = self.request.cookies.get(val)
-        return cookie_val and check_secure_val(cookie_val)
+        return cookie_val and utils.check_secure_val(cookie_val)
         
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)
@@ -66,12 +69,14 @@ class NewPost(BlogHandler):
             error = "Subject and content please"
             self.render_newpost(subject=subject, content=content,error=error)
             
+            
 class Post(BlogHandler):
     def get(self, postID):
         post = Posts.get_by_id(int(postID))
         subject = post.subject
         content = post.content
         self.render("post.html",subject=subject,content=content)
+        
         
 class Signup(BlogHandler):
     def render_signup(self, username="", email="",error=""):
@@ -86,9 +91,9 @@ class Signup(BlogHandler):
         verify = self.request.get("verify")
         email = self.request.get("email")
         
-        valid_u = valid_username(username)
-        valid_p = valid_password(password)
-        valid_e = valid_email(email)
+        valid_u = utils.valid_username(username)
+        valid_p = utils.valid_password(password)
+        valid_e = utils.valid_email(email)
         
         already_user = db.GqlQuery("SELECT * FROM Users WHERE username = :1", username).get()
         
@@ -98,7 +103,7 @@ class Signup(BlogHandler):
             
         elif ((valid_u and valid_p and verify==password and valid_e) or 
             (valid_u and valid_p and verify==password and email=="")):
-            pw_hash = make_pw_hash(username,password)
+            pw_hash = utils.make_pw_hash(username,password)
             newuser = Users(username = username, pw_hash=pw_hash, email=email)
             newuser.put()
             userID = str(newuser.key().id())
@@ -108,6 +113,7 @@ class Signup(BlogHandler):
         else:
             error = "Something went wrong"
             self.render_signup(username=username, email=email, error=error)        
+    
     
 class Welcome(BlogHandler):
     def get(self):
@@ -139,23 +145,28 @@ class Login(BlogHandler):
             error = "Invalid login information"
             self.render_login(username,error)
             
+            
 class Logout(BlogHandler):
     def get(self):
         self.set_secure_cookie("userID", "")
         self.redirect("/blog")
+        
         
 class Archives(BlogHandler):
     def get(self):
         posts = db.GqlQuery("SELECT * FROM Posts ORDER BY created;")
         self.render("archives.html", posts=posts)
 
+
 class About(BlogHandler):
     def get(self):
         self.render("about.html")
 
+
 class Hire(BlogHandler):
     def get(self):
         self.render("hire.html")
+
 
 class Contact(BlogHandler):
     def get(self):

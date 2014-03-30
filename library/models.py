@@ -1,10 +1,11 @@
 from google.appengine.ext import db
-from library.utilities import *
+from library.utilities import check_pw
 
 class Posts(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
+    
     
 class Users(db.Model):
     username = db.StringProperty(required = True)
