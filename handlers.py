@@ -108,20 +108,11 @@ class Signup(BlogHandler):
             newuser.put()
             userID = str(newuser.key().id())
             self.set_secure_cookie("userID", userID)
-            self.redirect("/blog/welcome")   
+            self.redirect("/blog/")   
             
         else:
             error = "Something went wrong"
-            self.render_signup(username=username, email=email, error=error)        
-    
-    
-class Welcome(BlogHandler):
-    def get(self):
-        if self.user:
-            self.response.out.write("Welcome, %s!" %self.user.username)
-        else:
-            self.redirect('/blog/login')
-        
+            self.render_signup(username=username, email=email, error=error)
             
 class Login(BlogHandler):
     def render_login(self,username="",error = ""):
@@ -129,7 +120,7 @@ class Login(BlogHandler):
         
     def get(self):
         if self.user:
-            self.redirect('/blog/welcome')
+            self.redirect('/blog/')
         else:
             self.render_login()
         
@@ -140,7 +131,7 @@ class Login(BlogHandler):
                 
         if user:
             self.set_secure_cookie("userID", str(user.key().id()))
-            self.redirect("/blog/welcome")  
+            self.redirect("/blog/")  
         else:
             error = "Invalid login information"
             self.render_login(username,error)

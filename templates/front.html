@@ -3,7 +3,7 @@
 {% block content %}
 
     {% for post in posts %}
-        <section>
+        <div id="post-wrapper">
             <div id="post-image"></div> 
             <div id="post">   
                 <a id="post-title" href={{"/blog/%d"%post.key().id()}}>{{post.subject}}</a>
@@ -12,9 +12,8 @@
                 <a id="post-link" href={{"/blog/%d"%post.key().id()}}>Read More</a>
             </div>
             
-        </section>
+        </div>
         <div id="post-separator"></div>
-        
     {% endfor %}
 
 

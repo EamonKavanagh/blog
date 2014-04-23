@@ -18,47 +18,52 @@
 
     <div id="top-bar">
     
-     <div class="login-area">
-        {% if user %}
-        {{user.username}} (<a class="login-link" href="/blog/logout">logout</a>)
-        {% else %}
-        <a class="login-link" href="/blog/login">login</a>
-        |
-        <a class="login-link" href="/blog/signup">signup</a>
-        {% endif %}
-    </div>
+         <div class="login-area">
+            {% if user %}
+            {{user.username}} (<a class="login-link" href="/blog/logout">logout</a>)
+            {% else %}
+            <a class="login-link" href="/blog/login">login</a>
+            |
+            <a class="login-link" href="/blog/signup">signup</a>
+            {% endif %}
+        </div>
     
     </div>
     
-    <div id="page">
+    <div id="content">
+    <div id="header">
     
-    <div id="main-title">
-        <a id="main-link" href="/blog">
-        \(e^{\pi i} = -1\)
-        </a>
-     </div>
+        <div id="main-title">
+            <a id="main-link" href="/blog">
+            \(e^{\pi i} = -1\)
+            </a>
+         </div>
      
-    <div class="link-bar"></div>
-    <ul id="nav-bar">
-        <li class="nav-bar-buttons">
-        <a href="/blog/archives" class="nav-button-link" id="first-nav-button">Archives</a>
-        </li>
-        <li class="nav-bar-buttons">
-        <a href="/blog/about" class="nav-button-link">About</a>
-        </li>
-        <li class="nav-bar-buttons">
-        <a href="/blog/hire" class="nav-button-link">Hire Me</a>
-        </li>
-        <li class="nav-bar-buttons">
-        <a href="/blog/contact" class="nav-button-link">Contact</a>
-        </li>
-    </ul>
-    <div class="link-bar" id="bottom-link-bar"></div>
-    
-    {% block content %}
-    {% endblock %}
+        <div class="link-bar"></div>
+        <ul id="nav-bar">
+            <li class="nav-bar-buttons">
+            <a href="/blog/archives" class="nav-button-link" id="first-nav-button">Archives</a>
+            </li>
+            <li class="nav-bar-buttons">
+            <a href="/blog/about" class="nav-button-link">About</a>
+            </li>
+            <li class="nav-bar-buttons">
+            <a href="/blog/hire" class="nav-button-link">Hire Me</a>
+            </li>
+            <li class="nav-bar-buttons">
+            <a href="/blog/contact" class="nav-button-link">Contact</a>
+            </li>
+        </ul>
+        <div class="link-bar"></div>
     
     </div>
+    
+        {% block content %}
+        {% endblock %}
+        
+    </div>
+    
+    
 </body>
 
 </html>

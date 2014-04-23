@@ -1,30 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+    <link type = "text/css" rel="stylesheet" href="/static/noscroll.css"/>
+    <div class="login-form">
     <h1>Signup</h1>
     <form method="post">
-        <label>
-            Username
-            <input type="text" name="username" value="{{username}}">
-        </label>
+        <input type="text" name="username" placeholder="Username" value="{{username}}">
         <br>
-        <label>
-            Password
-            <input type="password" name="password">
-        </label>
+        <input type="password" name="password" placeholder="Password">
         <br>
-        <label>
-            Verify Password
-            <input type="password" name="verify">
-        </label>
+        <input type="password" name="verify" placeholder="Verify Password">
         <br>
-        <label>
-            Email (optional)
-            <input type="text" name="email" value="{{email}}">
-        </label>
+        <input type="text" name="email" placeholder="Email (optional)" value="{{email}}">
         <br>
         <div class="error">{{error}}</div>
         <input type="submit" value="Submit">
+    </div>
             
 {% endblock %}
