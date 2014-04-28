@@ -10,6 +10,5 @@ application = webapp2.WSGIApplication([('/blog/?', handlers.Front),
                                         ('/blog/logout', handlers.Logout),
                                         ('/blog/archives', handlers.Archives),
                                         ('/blog/about', handlers.About),
-                                        ('/blog/hire', handlers.Hire),
                                         ('/blog/contact', handlers.Contact)], 
                                         debug=True)

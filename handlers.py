@@ -154,11 +154,6 @@ class About(BlogHandler):
         self.render("about.html")
 
 
-class Hire(BlogHandler):
-    def get(self):
-        self.render("hire.html")
-
-
 class Contact(BlogHandler):
     def get(self):
         self.render("contact.html")
