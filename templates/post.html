@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-    <div class="post-title">{{subject}}</div>
+    <div class="general-wrapper">
+    <h1>{{subject}}</h1>
+    <hr>
     <div class="post-content">{{content}}</div>
+    <div id="post-separator"></div>
+    <h2>Comments</h2>
+    <textarea id="comment-textarea"></textarea>
+    <input type="submit" value="Submit">
+    </div>
+    
     
 {% endblock %}

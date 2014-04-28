@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="general-wrapper">
     {% for post in posts %}
-    
+        
+        <div id="archive-wrapper">
         <a id="post-title" href={{"/blog/%d"%post.key().id()}}>{{post.subject}}</a>
-        <div id="post-separator"></div>
+        <div id="archive-separator"></div>
+        <img src="/static/mebike.png"/>
+        </div>
+
         
     {% endfor %}
-
-
+</div>
 {% endblock %}
