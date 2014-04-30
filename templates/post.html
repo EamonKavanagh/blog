@@ -5,10 +5,25 @@
     <h1>{{subject}}</h1>
     <hr>
     <div class="post-content">{{content}}</div>
-    <div id="post-separator"></div>
+    <br><br>
+    <div id="comment-separator"></div>
     <h2>Comments</h2>
-    <textarea id="comment-textarea"></textarea>
-    <input type="submit" value="Submit">
+    {% if user %}
+        <form method="post">
+            <textarea id="comment-textarea" name="comment"></textarea>
+            <input type="submit" value="Submit">
+            <br><br>
+    {% endif %}
+    {%  for comment in comments %}
+        <div id="comment-wrapper">
+        <h3 style="color: #800000">{{comment.commenter}}</h3>
+        <div id="comment-date">{{comment.created.strftime("%b %d, %Y")}}</div>
+        {{comment.comment}}
+        <br><br>
+        <hr>
+        </div>
+        
+    {% endfor %}
     </div>
     
     

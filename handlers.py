@@ -4,11 +4,8 @@ import webapp2
 import jinja2
 from google.appengine.ext import db
 
-from library.models import Posts, Users
+from library.models import Posts, Users, Comments
 import library.utilities as utils
-
-#ADD TIMESTAMPS
-
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
@@ -55,27 +52,40 @@ class NewPost(BlogHandler):
         if self.user and self.user.username == "Eamon":
             self.render_newpost()
         else:
-            self.redirect("/blog")
+            self.redirect("/blog/")
         
     def post(self):
         subject = self.request.get("subject")
+        image = self.request.get("image")
+        summary = self.request.get("summary")
         content = self.request.get("content")
         
-        if subject and content:
-            newpost = Posts(subject = subject, content = content)
+        if subject and content and image and summary:
+            newpost = Posts(subject=subject, content=content, image=image, summary=summary)
             newpost.put()
             self.redirect('/blog/' + str(newpost.key().id()))
         else:
-            error = "Subject and content please"
+            error = "Subject, content, summary and image required."
             self.render_newpost(subject=subject, content=content,error=error)
             
             
 class Post(BlogHandler):
     def get(self, postID):
         post = Posts.get_by_id(int(postID))
+        comments = db.GqlQuery("""SELECT * FROM Comments WHERE postID=:1
+                                ORDER BY created;""", postID)
         subject = post.subject
         content = post.content
-        self.render("post.html",subject=subject,content=content)
+        self.render("post.html",subject=subject,content=content, comments=comments)
+        
+    def post(self, postID):
+        if self.user:
+            comment = self.request.get("comment")
+            newComment = Comments(postID=postID, commenter=self.user.username, 
+                                  comment=comment)
+            newComment.put()
+            self.redirect('/blog/'+postID)
+            
         
         
 class Signup(BlogHandler):
@@ -127,7 +137,8 @@ class Login(BlogHandler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
-        user = Users.login(username,password)
+        if utils.valid_username(username) and utils.valid_password(password):
+            user = Users.login(username,password)
                 
         if user:
             self.set_secure_cookie("userID", str(user.key().id()))
@@ -140,7 +151,7 @@ class Login(BlogHandler):
 class Logout(BlogHandler):
     def get(self):
         self.set_secure_cookie("userID", "")
-        self.redirect("/blog")
+        self.redirect("/blog/")
         
         
 class Archives(BlogHandler):

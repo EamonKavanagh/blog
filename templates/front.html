@@ -4,11 +4,11 @@
 
     {% for post in posts %}
         <div id="post-wrapper">
-            <div id="post-image"></div> 
+            <div id="post-image"><img src="{{post.image}}"/></div> 
             <div id="post">   
                 <a id="post-title" href={{"/blog/%d"%post.key().id()}}>{{post.subject}}</a>
                 <div id="post-date">{{post.created.strftime("%b %d, %Y")}}</div>
-                <p id="post-content">{{post.content}}</p>
+                <p id="post-summary">{{post.summary}}</p>
                 <a id="post-link" href={{"/blog/%d"%post.key().id()}}>Read More</a>
             </div>
             
