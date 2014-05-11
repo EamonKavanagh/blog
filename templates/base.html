@@ -20,11 +20,11 @@
     
          <div class="login-area">
             {% if user %}
-            {{user.username}} (<a class="login-link" href="/blog/logout">logout</a>)
+            {{user.username}} (<a class="login-link" href="/logout">logout</a>)
             {% else %}
-            <a class="login-link" href="/blog/login">login</a>
+            <a class="login-link" href="/login">login</a>
             |
-            <a class="login-link" href="/blog/signup">signup</a>
+            <a class="login-link" href="/signup">signup</a>
             {% endif %}
         </div>
     
@@ -34,7 +34,7 @@
     <div id="header">
     
         <div id="main-title">
-            <a id="main-link" href="/blog/">
+            <a id="main-link" href="/">
             \(e^{\pi i} = -1\)
             </a>
          </div>
@@ -42,16 +42,16 @@
         <div class="link-bar"></div>
         <ul id="nav-bar">
             <li class="nav-bar-buttons">
-            <a href="/blog/" class="nav-button-link" id="first-nav-button">Home</a>
+            <a href="/" class="nav-button-link" id="first-nav-button">Home</a>
             </li>
             <li class="nav-bar-buttons">
-            <a href="/blog/archives" class="nav-button-link">Archives</a>
+            <a href="/archives" class="nav-button-link">Archives</a>
             </li>
             <li class="nav-bar-buttons">
-            <a href="/blog/about" class="nav-button-link">About</a>
+            <a href="/about" class="nav-button-link">About</a>
             </li>
             <li class="nav-bar-buttons">
-            <a href="/blog/contact" class="nav-button-link">Contact</a>
+            <a href="/contact" class="nav-button-link">Contact</a>
             </li>
         </ul>
         <div class="link-bar"></div>

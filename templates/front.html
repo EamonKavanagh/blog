@@ -9,7 +9,7 @@
                 <a id="post-title" href={{"/blog/%d"%post.key().id()}}>{{post.subject}}</a>
                 <div id="post-date">{{post.created.strftime("%b %d, %Y")}}</div>
                 <p id="post-summary">{{post.summary}}</p>
-                <a id="post-link" href={{"/blog/%d"%post.key().id()}}>Read More</a>
+                <a id="post-link" href={{"/%d"%post.key().id()}}>Read More</a>
             </div>
             
         </div>

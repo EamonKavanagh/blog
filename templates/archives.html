@@ -5,7 +5,7 @@
     {% for post in posts %}
         
         <div id="archive-wrapper">
-        <a id="post-title" href={{"/blog/%d"%post.key().id()}}>{{post.subject}}</a>
+        <a id="post-title" href={{"/%d"%post.key().id()}}>{{post.subject}}</a>
         <div id="archive-separator"></div>
         <img src="{{post.image}}"/>
         </div>

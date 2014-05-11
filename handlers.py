@@ -27,9 +27,18 @@ class BlogHandler(webapp2.RequestHandler):
         secure_val = utils.make_secure_val(val)
         self.response.headers.add_header("Set-Cookie","%s=%s; Path=/"%(cookie,secure_val))
         
+    def logout(self):
+        self.set_secure_cookie("userID", "")
+        
     def read_secure_cookie(self, val):
         cookie_val = self.request.cookies.get(val)
         return cookie_val and utils.check_secure_val(cookie_val)
+        
+    def verify_referer(self, referer):
+        if not referer or referer.endswith('/login') or referer.endswith('/signup'):
+            return '/'
+        else:
+            return referer
         
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)
@@ -63,7 +72,7 @@ class NewPost(BlogHandler):
         if subject and content and image and summary:
             newpost = Posts(subject=subject, content=content, image=image, summary=summary)
             newpost.put()
-            self.redirect('/blog/' + str(newpost.key().id()))
+            self.redirect('/' + str(newpost.key().id()))
         else:
             error = "Subject, content, summary and image required."
             self.render_newpost(subject=subject, content=content,error=error)
@@ -84,65 +93,81 @@ class Post(BlogHandler):
             newComment = Comments(postID=postID, commenter=self.user.username, 
                                   comment=comment)
             newComment.put()
-            self.redirect('/blog/'+postID)
+            self.redirect('/'+postID)
             
         
-        
 class Signup(BlogHandler):
-    def render_signup(self, username="", email="",error=""):
-        self.render("signup.html",username=username,email=email,error=error)
+
+    def register_user(self, username, password, email):
+        pw_hash = utils.make_pw_hash(username,password)
+        newuser = Users(username = username, pw_hash=pw_hash, email=email)
+        newuser.put()
+        userID = str(newuser.key().id())
+        self.set_secure_cookie("userID", userID)
                     
     def get(self):
-        self.render_signup()
+        self.render("signup.html", referer=self.request.headers.get('referer', '/'))
         
     def post(self):
+        have_error = False
         username = self.request.get("username")
         password = self.request.get("password")
         verify = self.request.get("verify")
         email = self.request.get("email")
+        referer = self.verify_referer(str(self.request.get('referer')))
+        
+        params = dict(username = username, email = email)
         
         valid_u = utils.valid_username(username)
         valid_p = utils.valid_password(password)
         valid_e = utils.valid_email(email)
         
-        already_user = db.GqlQuery("SELECT * FROM Users WHERE username = :1", username).get()
+        already_user = None
+        if valid_u:
+            already_user = db.GqlQuery("SELECT * FROM Users WHERE username = :1", username).get()
+        
+        if not valid_u:
+            params['error_username'] = "Invalid username.  "
+            have_error = True
+        if not valid_p:
+            params['error_password'] = "Invalid password.  "
+            have_error = True
+        elif verify != password:
+            params['error_password'] = "Passwords didn't match.  "
+            have_error = True
+        if not valid_e and email != '':
+            params['error_email'] = "Invalid email.  "
+            have_error = True
         
         if already_user:
-            error = "That user already exists"
-            self.render_signup(error=error)
-            
-        elif ((valid_u and valid_p and verify==password and valid_e) or 
-            (valid_u and valid_p and verify==password and email=="")):
-            pw_hash = utils.make_pw_hash(username,password)
-            newuser = Users(username = username, pw_hash=pw_hash, email=email)
-            newuser.put()
-            userID = str(newuser.key().id())
-            self.set_secure_cookie("userID", userID)
-            self.redirect("/blog/")   
-            
+            self.render("signup.html", error_username = "Username already taken.")    
+        elif have_error:
+            self.render("signup.html", **params)
         else:
-            error = "Something went wrong"
-            self.render_signup(username=username, email=email, error=error)
+            self.register_user(username, password, email)
+            self.redirect(referer)
             
 class Login(BlogHandler):
-    def render_login(self,username="",error = ""):
-        self.render("login.html",username=username, error=error)
+    def render_login(self, referer, username="",error = ""):
+        self.render("login.html",username=username, error=error, referer=referer)
         
     def get(self):
         if self.user:
-            self.redirect('/blog/')
+            self.redirect('/')
         else:
-            self.render_login()
+            self.render_login(referer=self.request.headers.get('referer','/'))
         
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
+        referer = self.verify_referer(str(self.request.get('referer')))
+            
         if utils.valid_username(username) and utils.valid_password(password):
             user = Users.login(username,password)
                 
         if user:
             self.set_secure_cookie("userID", str(user.key().id()))
-            self.redirect("/blog/")  
+            self.redirect(referer)  
         else:
             error = "Invalid login information"
             self.render_login(username,error)
@@ -150,8 +175,8 @@ class Login(BlogHandler):
             
 class Logout(BlogHandler):
     def get(self):
-        self.set_secure_cookie("userID", "")
-        self.redirect("/blog/")
+        self.logout()
+        self.redirect(self.verify_referer(self.request.headers.get('referer','/')))
         
         
 class Archives(BlogHandler):
