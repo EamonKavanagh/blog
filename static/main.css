@@ -242,3 +242,9 @@ input[type=submit] {
 #comment{
     white-space: pre-wrap;
 }
+
+.post-image{
+    text-align:center;
+    margin-top:25px;
+    margin-bottom:25px;
+}
