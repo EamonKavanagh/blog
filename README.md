@@ -1,1 +1,1 @@
-These files are the code for my personal blog, a venue to display work I've done in my Master's degree as well as side projects.  The blog has a python 2.7 backend and runs on Google App Engine.
+These files are the code for a personal blog which was used to teach me about web development.
